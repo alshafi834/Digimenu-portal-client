@@ -22,16 +22,17 @@
 }
 
 .nav-links a:hover {
-  background: #beb119;
-  border: 1px solid #d8c81d;
+  background: #c2c2c2;
+  border: 1px solid #e6e5e3;
   border-radius: 4px;
 }
 .nav-links a:active,
 .nav-links a.active {
-  background: #beb119;
-  border: 1px solid #d8c81d;
+  background: #d4d4d4;
+  border: 1px solid #929292;
   border-radius: 4px;
   color: #292929;
+  font-weight: bold;
 }
 
 .nav-links button {
@@ -75,7 +76,7 @@
 
   .nav-links button:hover,
   .nav-links button:active {
-    background: #f8df00;
+    background: #e9e9e9;
     color: #292929;
   }
 }

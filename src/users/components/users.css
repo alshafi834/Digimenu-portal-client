@@ -10,16 +10,26 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background-color: #ececec;
 }
 .cat-item button {
   background-color: transparent;
   border-radius: 4px;
   border: 2px solid rgb(40, 170, 127);
   cursor: pointer;
+  margin-right: 3px;
 }
-
+.add-cat {
+  width: 800px;
+}
+.category-sec {
+  margin-top: 20px;
+  margin-left: -5px;
+}
 .foodItems {
   width: 60%;
+  border-left: 1px solid #cccccc;
+  margin-left: 15px;
 }
 .foodItem {
   display: flex;
@@ -31,13 +41,26 @@
   padding: 0 10px;
   align-items: center;
   margin-bottom: 8px;
+  background-color: white;
+}
+.foodItem-left {
+  display: flex;
+  align-items: center;
 }
 .foodItem button {
   background-color: transparent;
   border-radius: 4px;
-  border: 2px solid rgb(255, 108, 10);
+  border: 2px solid #95a5a6;
   cursor: pointer;
   height: 30px;
+  margin-right: 2px;
+}
+.foodItem img {
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
 }
 
 ul li {
@@ -52,23 +75,62 @@ ul li {
   padding: 10px;
   margin-bottom: 20px;
 }
-
+.tab-order {
+  width: 100%;
+}
+.MuiAppBar-colorPrimary {
+  color: #fff;
+  background-color: #36363b !important;
+}
 p.successMsg {
   color: rgb(40, 170, 127);
 }
 
-.makeStyles-tabs-2 {
-  width: 250px;
-  background: #95a5a6;
+.MuiTabs-vertical {
+  min-width: 250px;
+  background: #2c3e50;
 }
+
+/* .makeStyles-tabs-2 {
+  background: #2c3e50;
+} */
 
 .MuiTab-textColorInherit.Mui-selected {
   opacity: 1;
   color: white;
-  background-color: rgb(59, 59, 59);
+  background-color: #34495e;
 }
 
+.MuiTab-textColorInherit {
+  border-bottom: 1px solid #cccccc;
+}
+
+.MuiTabs-flexContainer {
+  width: 250px !important;
+}
+.MuiTouchRipple-root {
+  border-bottom: 1px solid #676767;
+}
+.PrivateTabIndicator-colorSecondary-5 {
+  background-color: rgb(40, 170, 127) !important;
+}
+.PrivateTabIndicator-colorSecondary-9 {
+  background-color: rgb(40, 170, 127) !important;
+}
+.MuiTab-wrapper {
+  width: 100%;
+  display: inline-flex;
+  align-items: end !important;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  padding: 10px;
+}
 .qr-code p,
 h3 {
   text-align: center;
+}
+
+.MuiAccordion-rounded {
+  background: #e8e8e86b !important;
 }

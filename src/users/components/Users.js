@@ -3,6 +3,8 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import "./users.css";
 
+import { useForm } from "react-hook-form";
+
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Dialog from "@material-ui/core/Dialog";
@@ -24,6 +26,7 @@ import PropTypes from "prop-types";
 import QRCode from "qrcode.react";
 import ReactToPdf from "react-to-pdf";
 import { Divider } from "@material-ui/core";
+import Orders from "./Orders";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -89,6 +92,8 @@ const Users = () => {
   const [createdFoods, setCreatedFoods] = useState();
 
   const ref = React.createRef();
+
+  const { register, handleSubmit } = useForm();
 
   const options = {
     orientation: "portrait",
@@ -167,6 +172,61 @@ const Users = () => {
         "POST",
         JSON.stringify({
           fooditem: food,
+          email: restInfo.email,
+          category: foodCat,
+          userID: auth.userId,
+        }),
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth.token,
+        }
+      );
+      setCreatedFoods(responseData.fooditems);
+      console.log(responseData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSubmit = async (data) => {
+    console.log(data.foodImage[0]);
+    const formData = new FormData();
+    formData.append("image", data.foodImage[0]);
+    let uploadedimage;
+    try {
+      uploadedimage = await sendRequest(
+        "http://localhost:5000/api/users/uploadfoodimage",
+        "POST",
+        formData,
+        {
+          Authorization: "Bearer " + auth.token,
+        }
+      );
+      console.log(uploadedimage.imageUrl);
+    } catch (error) {
+      console.error(error);
+    }
+
+    /* try {
+      data.latitude = props.coordinates.latitude;
+      data.longitude = props.coordinates.longitude;
+      data.image = uploadedimage.imageUrl;
+      const response = await createTravelEntry(data);
+      props.onFormClose();
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+      setLoading(false);
+    } */
+    try {
+      const responseData = await sendRequest(
+        "http://localhost:5000/api/users/addfooditem",
+        "POST",
+        JSON.stringify({
+          foodName: data.foodName,
+          foodPrice: data.foodPrice,
+          foodImage: uploadedimage.imageUrl,
           email: restInfo.email,
           category: foodCat,
           userID: auth.userId,
@@ -282,7 +342,7 @@ const Users = () => {
         );
 
         setRestInfo(responseData);
-        setQrUrl(`http://digimenu.com/${responseData.username}`);
+        setQrUrl(`http://localhost:3006/${responseData._id}`);
         setAllCat(responseData.categories);
         setCreatedFoods(responseData.fooditems);
         console.log(restInfo);
@@ -309,8 +369,8 @@ const Users = () => {
           <Tab label="Add Food Categories" {...a11yProps(1)} />
           <Tab label="Add Food Items" {...a11yProps(2)} />
           <Tab label="Barcode" {...a11yProps(3)} />
-          {/* <Tab label="Item Five" {...a11yProps(4)} />
-          <Tab label="Item Six" {...a11yProps(5)} />
+          <Tab label="Manage Orders" {...a11yProps(5)} />
+          {/* <Tab label="Item Six" {...a11yProps(5)} />
           <Tab label="Item Seven" {...a11yProps(6)} /> */}
         </Tabs>
         <TabPanel value={value} index={0}>
@@ -387,7 +447,7 @@ const Users = () => {
           </div>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <div>
+          <div className="add-cat">
             <h2>Organize your Menu</h2>
             <form noValidate autoComplete="off" onSubmit={createCategory}>
               <Grid container spacing={3}>
@@ -452,7 +512,7 @@ const Users = () => {
                                 color="primary"
                                 onClick={() => deleteCat(cat._id)}
                               >
-                                Delete this category
+                                Delete category
                               </Button>
                             </div>
                             <Dialog
@@ -469,7 +529,7 @@ const Users = () => {
                               <form
                                 noValidate
                                 autoComplete="off"
-                                onSubmit={createFood}
+                                onSubmit={handleSubmit(onSubmit)}
                               >
                                 <DialogContent dividers>
                                   <Grid container spacing={3}>
@@ -477,24 +537,58 @@ const Users = () => {
                                       <TextField
                                         fullWidth
                                         id="foodName"
+                                        name="foodName"
                                         label="Food Name"
-                                        value={food.foodName}
-                                        onChange={foodHandler("foodName")}
+                                        {...register("foodName", {
+                                          required: true,
+                                        })}
                                         type="text"
                                         variant="outlined"
                                         size="small"
                                       />
+                                      {/* <label htmlFor="title">
+                                        Place Name:{" "}
+                                      </label>
+                                      <input
+                                        name="title"
+                                        type="text"
+                                        {...register("title", {
+                                          required: true,
+                                        })}
+                                        required
+                                      /> */}
                                     </Grid>
                                     <Grid item xs={12}>
                                       <TextField
                                         fullWidth
                                         id="foodPrice"
+                                        name="foodPrice"
                                         label="Food Price"
-                                        value={food.foodPrice}
-                                        onChange={foodHandler("foodPrice")}
+                                        {...register("foodPrice", {
+                                          required: true,
+                                        })}
                                         type="text"
                                         variant="outlined"
                                         size="small"
+                                      />
+                                      {/* <label htmlFor="desc">Place Name: </label>
+                                      <input
+                                        name="desc"
+                                        type="text"
+                                        required
+                                        {...register("title", {
+                                          required: true,
+                                        })}
+                                      /> */}
+                                    </Grid>
+                                    <Grid>
+                                      <label htmlFor="image">Image: </label>
+                                      <input
+                                        name="foodImage"
+                                        type="file"
+                                        {...register("foodImage", {
+                                          required: true,
+                                        })}
                                       />
                                     </Grid>
                                   </Grid>
@@ -520,15 +614,21 @@ const Users = () => {
                                 if (cf.foodCategory === cat._id)
                                   return (
                                     <div className="foodItem">
-                                      <p>
-                                        {cf.foodName} - {cf.foodPrice} €
-                                      </p>
-                                      <button
-                                        onClick={() => deleteFood(cf._id)}
-                                        type="submit"
-                                      >
-                                        Delete
-                                      </button>
+                                      <div className="foodItem-left">
+                                        <img src={cf.foodImage} alt="" />
+                                        <p>
+                                          {cf.foodName} - {cf.foodPrice} €
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <button type="submit">Update</button>
+                                        <button
+                                          onClick={() => deleteFood(cf._id)}
+                                          type="submit"
+                                        >
+                                          Delete
+                                        </button>
+                                      </div>
                                     </div>
                                   );
                               })}
@@ -547,7 +647,7 @@ const Users = () => {
           <div>
             <div ref={ref}>
               <div className="qr-code">
-                {restInfo ? <QRCode value={qrUrl} size={575} /> : null}
+                {restInfo ? <QRCode value={qrUrl} size={375} /> : null}
                 <p>{qrUrl}</p>
               </div>
               <h3>Scan the QR code to get the menu</h3>
@@ -568,10 +668,10 @@ const Users = () => {
             )}
           </ReactToPdf>
         </TabPanel>
-        {/* <TabPanel value={value} index={4}>
-          item 5
+        <TabPanel value={value} index={4} className="tab-order">
+          <Orders />
         </TabPanel>
-        <TabPanel value={value} index={5}>
+        {/* <TabPanel value={value} index={5}>
           item 6
         </TabPanel>
         <TabPanel value={value} index={6}>
