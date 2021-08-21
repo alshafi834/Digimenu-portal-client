@@ -342,7 +342,7 @@ const Users = () => {
         );
 
         setRestInfo(responseData);
-        setQrUrl(`http://localhost:3006/${responseData._id}`);
+        setQrUrl(`${process.env.REACT_APP_MENU_URL}/${responseData._id}`);
         setAllCat(responseData.categories);
         setCreatedFoods(responseData.fooditems);
         console.log(restInfo);
