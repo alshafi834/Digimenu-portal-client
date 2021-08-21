@@ -20,7 +20,7 @@ const App = () => {
     routes = (
       <Switch>
         <Route path="/" exact>
-          <Home />
+          <Users />
         </Route>{" "}
         <Route path="/users">
           <Users />

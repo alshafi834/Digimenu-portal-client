@@ -27,7 +27,7 @@ const Auth = () => {
     if (signUpMode) {
       try {
         const responseData = await sendRequest(
-          "http://localhost:5000/api/users/signup",
+          `${process.env.REACT_APP_API_URL}/api/users/signup`,
           "POST",
           JSON.stringify({
             username: values.uname,
@@ -48,7 +48,7 @@ const Auth = () => {
     } else {
       try {
         const responseData = await sendRequest(
-          "http://localhost:5000/api/users/login",
+          `${process.env.REACT_APP_API_URL}/api/users/login`,
           "POST",
           JSON.stringify({
             email: values.email,
@@ -79,6 +79,10 @@ const Auth = () => {
         <div className="formHeader">
           <div>
             <h2>{signUpMode ? "Sign Up" : "Login"}</h2>
+            <p>
+              Organize your restaurant menu and offer your customers contactless
+              digital menu to order online
+            </p>
           </div>
           <div>
             <span>Switch to</span>

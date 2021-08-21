@@ -97,7 +97,7 @@ const Orders = () => {
     const getMyOrders = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/users/orders/${auth.userId}`,
+          `${process.env.REACT_APP_API_URL}/api/users/orders/${auth.userId}`,
           "GET",
           null,
           {
@@ -115,7 +115,7 @@ const Orders = () => {
     const getMyCompOrders = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/users/completedorders/${auth.userId}`,
+          `${process.env.REACT_APP_API_URL}/api/users/completedorders/${auth.userId}`,
           "GET",
           null,
           {
@@ -138,7 +138,7 @@ const Orders = () => {
     //setStatus(event.target.value);
     try {
       const responseData = await sendRequest(
-        "http://localhost:5000/api/users/updateorderstatus",
+        `${process.env.REACT_APP_API_URL}/api/users/updateorderstatus`,
         "POST",
         JSON.stringify({
           orderId: id,
@@ -325,8 +325,8 @@ const Orders = () => {
                     </TableCell>
                     <TableCell align="right">{row.totalprice}</TableCell>
                     <TableCell align="right">
-                      {/* {steps[row.status]}{" "} */}
-                      <NativeSelect
+                      {steps[row.status]}{" "}
+                      {/* <NativeSelect
                         value={steps[row.status]}
                         name="age"
                         onChange={(e) => handleStatusChange(e, row._id)}
@@ -336,7 +336,7 @@ const Orders = () => {
                         <option value={steps[1]}>{steps[1]}</option>
                         <option value={steps[2]}>{steps[2]}</option>
                         <option value={steps[3]}>{steps[3]}</option>
-                      </NativeSelect>
+                      </NativeSelect> */}
                     </TableCell>
                   </TableRow>
                 ))}

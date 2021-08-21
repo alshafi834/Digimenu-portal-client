@@ -135,7 +135,7 @@ const Users = () => {
     event.preventDefault();
     try {
       const responseData = await sendRequest(
-        "http://localhost:5000/api/users/editrestinfo",
+        `${process.env.REACT_APP_API_URL}/api/users/editrestinfo`,
         "POST",
         JSON.stringify({
           category: catname,
@@ -168,7 +168,7 @@ const Users = () => {
     console.log("creating food");
     try {
       const responseData = await sendRequest(
-        "http://localhost:5000/api/users/addfooditem",
+        `${process.env.REACT_APP_API_URL}/api/users/addfooditem`,
         "POST",
         JSON.stringify({
           fooditem: food,
@@ -195,7 +195,7 @@ const Users = () => {
     let uploadedimage;
     try {
       uploadedimage = await sendRequest(
-        "http://localhost:5000/api/users/uploadfoodimage",
+        `${process.env.REACT_APP_API_URL}/api/users/uploadfoodimage`,
         "POST",
         formData,
         {
@@ -221,7 +221,7 @@ const Users = () => {
     } */
     try {
       const responseData = await sendRequest(
-        "http://localhost:5000/api/users/addfooditem",
+        `${process.env.REACT_APP_API_URL}/api/users/addfooditem`,
         "POST",
         JSON.stringify({
           foodName: data.foodName,
@@ -265,7 +265,7 @@ const Users = () => {
     event.preventDefault();
     try {
       const responseData = await sendRequest(
-        "http://localhost:5000/api/users/editrestprofileinfo",
+        `${process.env.REACT_APP_API_URL}/api/users/editrestprofileinfo`,
         "POST",
         JSON.stringify({
           restproInfo: restInfo,
@@ -295,7 +295,7 @@ const Users = () => {
   const deleteCat = async (id) => {
     try {
       const responseData = await sendRequest(
-        `http://localhost:5000/api/users/deletecategory/${id}`,
+        `${process.env.REACT_APP_API_URL}/api/users/deletecategory/${id}`,
         "DELETE",
         JSON.stringify({
           email: restInfo.email,
@@ -312,7 +312,7 @@ const Users = () => {
   const deleteFood = async (id) => {
     try {
       const responseData = await sendRequest(
-        `http://localhost:5000/api/users/deletefood/${id}`,
+        `${process.env.REACT_APP_API_URL}/api/users/deletefood/${id}`,
         "DELETE",
         JSON.stringify({
           email: restInfo.email,
@@ -330,7 +330,7 @@ const Users = () => {
     const getUserProfile = async () => {
       try {
         const responseData = await sendRequest(
-          "http://localhost:5000/api/users",
+          `${process.env.REACT_APP_API_URL}/api/users`,
           "POST",
           JSON.stringify({
             userID: auth.userId,
